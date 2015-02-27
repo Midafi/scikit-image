@@ -4,6 +4,7 @@
 #cython: wraparound=False
 import numpy as np
 cimport numpy as cnp
+from libc.math cimport isnan
 
 
 cdef inline double _get_fraction(double from_value, double to_value,
@@ -131,6 +132,9 @@ def iterate_and_store_3d(double[:, :, ::1] arr, double level):
         v7 = arr[x1, y1, z1]
         v8 = arr[x0, y1, z1]
 
+        nan_values = (isnan(v1) or isnan(v2) or isnan(v3) or isnan(v4) or 
+                      isnan(v5) or isnan(v6) or isnan(v7) or isnan(v8))
+
         # Unique triangulation cases
         cube_case = 0
         if (v1 > level): cube_case += 1
@@ -142,7 +146,7 @@ def iterate_and_store_3d(double[:, :, ::1] arr, double level):
         if (v7 > level): cube_case += 64
         if (v8 > level): cube_case += 128
 
-        if (cube_case != 0 and cube_case != 255):
+        if (cube_case != 0 and cube_case != 255 and not nan_values):
             # Only do anything if there's a plane intersecting the cube.
             # Cases 0 and 255 are entirely below/above the contour.
 
