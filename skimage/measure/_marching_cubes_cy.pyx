@@ -159,18 +159,18 @@ def iterate_and_store_3d(double[:, :, ::1] arr, double level):
             # Calculate cube edges, to become triangulation vertices.
             # If we moved in a convenient direction, save 1/3 of the effort by
             # re-assigning prior results.
-            if plus_z:
-                # Reassign prior calculated edges
-                e1 = e5
-                e2 = e6
-                e3 = e7
-                e4 = e8
-            else:
-                # Calculate these edges normally
-                e1 = x0 + _get_fraction(v1, v2, level), y0, z0
-                e2 = x1, y0 + _get_fraction(v2, v3, level), z0
-                e3 = x0 + _get_fraction(v4, v3, level), y1, z0
-                e4 = x0, y0 + _get_fraction(v1, v4, level), z0
+            # if plus_z:
+            #     # Reassign prior calculated edges
+            #     e1 = e5
+            #     e2 = e6
+            #     e3 = e7
+            #     e4 = e8
+            # else:
+            # Calculate these edges normally
+            e1 = x0 + _get_fraction(v1, v2, level), y0, z0
+            e2 = x1, y0 + _get_fraction(v2, v3, level), z0
+            e3 = x0 + _get_fraction(v4, v3, level), y1, z0
+            e4 = x0, y0 + _get_fraction(v1, v4, level), z0
 
             # These must be calculated at each point unless we implemented a
             # large, growing lookup table for all adjacent values; could save
