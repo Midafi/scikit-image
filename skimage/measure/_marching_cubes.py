@@ -103,7 +103,7 @@ def marching_cubes(volume, level, spacing=(1., 1., 1.)):
     # Check inputs and ensure `volume` is C-contiguous for memoryviews
     if volume.ndim != 3:
         raise ValueError("Input volume must have 3 dimensions.")
-    if level < volume.min() or level > volume.max():
+    if level < np.nanmin(volume) or level > np.nanmax(volume):
         raise ValueError("Contour level must be within volume data range.")
     if len(spacing) != 3:
         raise ValueError("`spacing` must consist of three floats.")

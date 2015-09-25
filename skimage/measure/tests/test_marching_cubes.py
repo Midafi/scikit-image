@@ -57,5 +57,15 @@ def test_correct_mesh_orientation():
     np.testing.assert_array_equal(expected, corrected_faces1)
 
 
+def test_nans_in_volume():
+    # Ensuring that NaNs present in volume do get turned into vertices with
+    # NaN locations
+    volume = np.ones((3, 3, 3))
+    volume[0, 0, 0] = -1
+    volume[-1, -1, -1] = np.nan
+    verts, faces = marching_cubes(volume, 0)
+    assert np.any(np.isnan(verts)) == False
+
+
 if __name__ == '__main__':
     np.testing.run_module_suite()
