@@ -122,11 +122,8 @@ def marching_cubes(volume, level, spacing=(1., 1., 1.)):
     # Returns a true mesh with no degenerate faces.
     verts, faces = _marching_cubes_cy.unpack_unique_verts(raw_faces)
 
-    if np.asarray(verts).size:
-        # Adjust for non-isotropic spacing in `verts` at time of return
-        return np.asarray(verts) * np.r_[spacing], np.asarray(faces)
-    else:
-        return np.asarray(verts), np.asarray(faces)
+    # Adjust for non-isotropic spacing in `verts` at time of return
+    return np.asarray(verts) * np.r_[spacing], np.asarray(faces)
 
 
 def mesh_surface_area(verts, faces):
